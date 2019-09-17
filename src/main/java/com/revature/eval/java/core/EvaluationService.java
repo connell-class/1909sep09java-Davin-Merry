@@ -1,7 +1,8 @@
 package com.revature.eval.java.core;
 
 import java.time.Duration;
-import java.time.Period;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -186,11 +187,19 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		StringBuilder s = new StringBuilder();
+		if (!("()- ".contains(s))) {
+			
+		}
 		char c;
 		for (int i = 0; i < string.length(); i++) {
 			c = string.charAt(i);
 			if (Character.isDigit(c)) {
 				s.append(c);
+			}
+		}
+		if (s.length() == 11) {
+			if (s.charAt(0) == '1') {
+				s.delete(0, 1);
 			}
 		}
 		if (s.length() != 10 || (s.length() == 10 && ((s.charAt(0) - '0') < 2))) {
@@ -282,9 +291,23 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			//TODO Hell, I don't know... This is the closest I got.
-			//sortedList.get(t);
-			return 0;
+			int size = sortedList.size();
+			int min = 0; int max = size - 1;
+			int n = 0;
+			T l;
+			
+			for (int i = 0; i < size; i++) {
+				n = (max + min) / 2;
+				l = sortedList.get(n);
+				if (l.equals(t)) {
+					break;
+				} else if ((int)l < (int)t) {
+					min = (int)n + 1;
+				} else if ((int)l > (int)t) {
+					max = (int)n - 1;
+				}
+			}
+			return n;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -469,7 +492,8 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
+		//TODO
+		
 		return 0;
 	}
 
@@ -521,7 +545,7 @@ public class EvaluationService {
 				
 				if (Character.isLetter(c) || Character.isDigit(c)) {
 					charCount++;
-					if (charCount % 5 == 0) {
+					if ((charCount % 5 == 0) && i != (string.length() - 1)) {
 						s.append(' ');
 					}
 				}
@@ -631,11 +655,10 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		System.out.println(given.getClass().getName().contains("LocalDateTime"));
-		if (given.getClass().getName().contains("LocalDateTime"))
+		if (given.isSupported(ChronoUnit.HOURS))
 			return given.plus(Duration.ofSeconds(1000000000));
 		else
-			return given.plus(Period.ofDays(1000000000 / 86400));
+			return LocalDate.from(given).atStartOfDay().plusSeconds(1000000000);
 	}
 
 	/**
