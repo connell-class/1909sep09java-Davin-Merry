@@ -46,5 +46,6 @@ public class SandboxTest {
 		
 		System.out.println(e.cleanPhoneNumber("1  249 11aaa1 1944"));
 		
+		System.out.println(e.acronymRegex("Portable Network Graphics"));		
 	}
 }

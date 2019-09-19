@@ -36,6 +36,8 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
+		//Regex format for this: (\B.|\P{L})+
+		
 		boolean reset = false;
 		StringBuilder a = new StringBuilder();
 		char c;
@@ -50,6 +52,11 @@ public class EvaluationService {
 		}
 		
 		return a.toString();
+	}
+	
+	//BONUS: Alternative function using regex. James Hauffa found the pattern.
+	public String acronymRegex(String phrase) {
+		return phrase.replaceAll("(\\B.|\\P{L})+", "").toUpperCase();
 	}
 
 	/**
@@ -186,6 +193,7 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
+		//TODO Letters are not being caught properly.
 		StringBuilder s = new StringBuilder();
 		if (!("()- ".contains(s))) {
 			
@@ -222,6 +230,10 @@ public class EvaluationService {
 		
 		Map<String, Integer> m = new HashMap<>();
 		
+		//Remove split it by either a space or comma.
+		String[] str = string.split("[ ,]+");
+		
+		/*
 		//Temporary storage variables
 		StringBuilder s = new StringBuilder();
 		String str;
@@ -249,6 +261,7 @@ public class EvaluationService {
 		if (m.containsKey(""))
 			m.remove("");
 		
+		*/
 		return m;
 	}
 
@@ -492,7 +505,7 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		//TODO
+		int[] knownPrimes = {};
 		
 		return 0;
 	}
@@ -545,12 +558,12 @@ public class EvaluationService {
 				
 				if (Character.isLetter(c) || Character.isDigit(c)) {
 					charCount++;
-					if ((charCount % 5 == 0) && i != (string.length() - 1)) {
+					if ((charCount % 5 == 0)) {
 						s.append(' ');
 					}
 				}
 			}
-			return s.toString();
+			return s.toString().trim();
 		}
 
 		/**
@@ -687,6 +700,24 @@ public class EvaluationService {
 		
 		//WARNING Are you sure you want to use this as your output? The instructor WILL demand an explanation...
 		return nums.stream().mapToInt(Integer::intValue).sum();
+		/*
+		 * Explanation:
+		 * Using the HashSet nums, I stored all multiples inside; any duplicates are ignored.
+		 * After doing this, I can create a stream from this HashSet, allowing me to pipeline
+		 * all the data from it and manipulate it in any way I want.
+		 * 
+		 * In this case, I decided to map the collection of objects as an Integer,
+		 * calling the Integer class function intValue() directly.
+		 * This is a faster way of calling a method directly in place of a lambda expression (-> or arrow token).
+		 * E.g. It will work the same as if I used the following expression "s -> s.intValue()".
+		 * 
+		 * Integer::intValue is simply converting the Integer object over to a primitive int.
+		 * 
+		 * After the objects' values have been made using this function, I can then gain access to
+		 * specific functions to further manipulate the streamed data.
+		 * 
+		 * Finally, I called sum() to return the sum of all values streamed out of nums.
+		 */
 	}
 
 	/**
