@@ -17,7 +17,7 @@ public class EvaluationService {
 	 * reverses a String. Example: reverse("example"); -> "elpmaxe"
 	 * 
 	 * @param string
-	 * @return
+	 * @return A reversed version of the string
 	 */
 	public String reverse(String string) {
 		char[] reversed = new char[string.length()];
@@ -226,12 +226,22 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Split words into an array and iterate that instead.
-		
 		Map<String, Integer> m = new HashMap<>();
+		//Remove any newline characters from the string.
+		string = string.replaceAll("[\n]", "");
 		
-		//Remove split it by either a space or comma.
+		//Split it by either a space or comma.
 		String[] str = string.split("[ ,]+");
+		
+		for (int i = 0; i < str.length; i++) {
+			if (m.containsKey(str[i])) {
+				m.put(str[i], m.get(str[i]) + 1);
+			} else {
+				m.put(str[i], 1);
+			}
+		}
+		
+		return m;
 		
 		/*
 		//Temporary storage variables
@@ -262,7 +272,6 @@ public class EvaluationService {
 			m.remove("");
 		
 		*/
-		return m;
 	}
 
 	/**
@@ -505,9 +514,46 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		int[] knownPrimes = {};
+		if (i < 1) throw new IllegalArgumentException();
+		int j; //Used outside of the for-loop as well.
+		int prime = 1;
+		int c = 0;
 		
-		return 0;
+		while (c < i) {
+			prime++;
+			for (j = 2; j <= prime; j++) {
+				if (prime % j == 0) {
+					break;
+				}
+			}
+			
+			if (j == prime) {
+				c++;
+			}
+		}
+		
+		return prime;
+		/*
+		if (i == 1) return 2;
+		
+		int currentIndex = 1;
+		boolean isPrime = false;
+		int n = 3;
+		while(true) {
+			for(int j = 2; j <= n; j++) {
+				if (n % j == 0) {
+					isPrime = false;
+					break;
+				}
+				isPrime = true;
+			}
+			currentIndex++;
+			if (isPrime) {
+				
+				break;
+			}
+		}
+		*/
 	}
 
 	/**
@@ -711,7 +757,8 @@ public class EvaluationService {
 		 * This is a faster way of calling a method directly in place of a lambda expression (-> or arrow token).
 		 * E.g. It will work the same as if I used the following expression "s -> s.intValue()".
 		 * 
-		 * Integer::intValue is simply converting the Integer object over to a primitive int.
+		 * Integer::intValue is simply converting the Integer object over to a primitive int
+		 * by obtaining the direct value of that Integer object. (Integer 22 is equal to int 22).
 		 * 
 		 * After the objects' values have been made using this function, I can then gain access to
 		 * specific functions to further manipulate the streamed data.
