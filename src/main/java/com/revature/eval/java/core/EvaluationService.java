@@ -242,36 +242,6 @@ public class EvaluationService {
 		}
 		
 		return m;
-		
-		/*
-		//Temporary storage variables
-		StringBuilder s = new StringBuilder();
-		String str;
-		char c; int count;
-		//boolean reset = false;
-		for (int i = 0; i < string.length(); i++) {
-			c = string.charAt(i);
-			if (Character.isLetter(c))
-				s.append(c);
-			else {
-				str = s.toString();
-				count = m.containsKey(str) ? m.get(str) : 0;
-				m.put(str, count + 1);
-				s.delete(0, s.length());
-			}
-		}
-		
-		//Add the final word to the map
-		// TODO Find a more condensed way to do this; try not to repeat the exact same lines twice.
-		str = s.toString();
-		count = m.containsKey(str) ? m.get(str) : 0;
-		m.put(str, count + 1);
-		
-		//Remove any artifacts (blank strings) from the map, if they exist
-		if (m.containsKey(""))
-			m.remove("");
-		
-		*/
 	}
 
 	/**
